@@ -1,6 +1,6 @@
-import Foundation
+import struct Foundation.Date
 
-public typealias AsyncTask = (Void) -> Void
+public typealias AsyncTask = () -> Void
 
 public protocol Async {
     var loop: AsyncLoop { get }

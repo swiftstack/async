@@ -1,12 +1,18 @@
+// swift-tools-version:4.0
 import PackageDescription
 
 let package = Package(
     name: "Async",
+    products: [
+        .library(name: "Async", targets: ["Async"])
+    ],
     dependencies: [
-        .Package(
+        .package(
             url: "https://github.com/swift-stack/platform.git",
-            majorVersion: 0,
-            minor: 3
+            from: "0.4.0"
         )
+    ],
+    targets: [
+        .target(name: "Async", dependencies: ["Platform"])
     ]
 )
