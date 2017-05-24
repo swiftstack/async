@@ -14,9 +14,12 @@ public protocol Async {
         deadline: Date,
         task: @escaping () throws -> T
     ) throws -> T
+
+    func sleep(until deadline: Date)
 }
 
 public protocol AsyncLoop {
     func run()
     func run(until: Date)
+    func `break`()
 }
