@@ -3,8 +3,9 @@ import struct Dispatch.DispatchQoS
 
 public typealias AsyncTask = () -> Void
 
-public struct AsyncTaskCanceled: Error {
-    public init() {}
+public enum AsyncError: Error {
+    case timeout
+    case taskCanceled
 }
 
 public protocol Async {
@@ -27,5 +28,4 @@ public protocol Async {
 public protocol AsyncLoop {
     func run()
     func run(until: Date)
-    func `break`()
 }
