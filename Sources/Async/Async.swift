@@ -31,11 +31,10 @@ public protocol AsyncLoop {
 }
 
 extension Async {
-    public func syncTask<T>(
-        qos: DispatchQoS.QoSClass = .background,
-        deadline: Date = Date.distantFuture,
-        task: @escaping () throws -> T
-    ) throws -> T{
-        return try syncTask(qos: qos, deadline: deadline, task: task)
+    public func syncTask<T>(task: @escaping () throws -> T) throws -> T {
+        return try syncTask(
+            qos: .background,
+            deadline: Date.distantFuture,
+            task: task)
     }
 }
