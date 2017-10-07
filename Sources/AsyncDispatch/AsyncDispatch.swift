@@ -70,8 +70,38 @@ public struct AsyncDispatch: Async {
     ) throws {
         let event = event == .read ? Int16(POLLIN) : Int16(POLLOUT)
         var fd = pollfd(fd: descriptor.rawValue, events: event, revents: 0)
-        guard poll(&fd, 1, -1) > 0 else {
-            throw SystemError()
+
+        func calculateTimeout(to deadline: Date) throws -> Int32 {
+            let indefinitely: Int32 = -1
+
+            switch deadline {
+            case .distantFuture:
+                return indefinitely
+            default:
+                let timeInterval = Int(deadline.timeIntervalSinceNow * 1_000)
+                guard timeInterval <= Int32.max else {
+                    return indefinitely
+                }
+                guard timeInterval > 0 else {
+                    throw AsyncError.timeout
+                }
+                return Int32(timeInterval)
+            }
+        }
+
+        while true {
+            let timeout = try calculateTimeout(to: deadline)
+            let result = poll(&fd, 1, timeout)
+            if result == -1 && errno == EINTR {
+                continue
+            }
+            guard result <= 0 else {
+                break
+            }
+            switch result {
+            case 0: throw AsyncError.timeout
+            default: throw SystemError()
+            }
         }
     }
 
