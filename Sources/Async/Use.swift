@@ -14,6 +14,18 @@ extension Async {
     public func use(_ system: Asynchronous.Type) {
         async = system.async
     }
+
+    /// For testing
+    func setUp(_ system: Asynchronous.Type) {
+        guard !initialized else {
+            // allow to run tests with the same async
+            if type(of: async) != type(of: system.async) {
+                fatalError("async: conflict")
+            }
+            return
+        }
+        use(system)
+    }
 }
 
 import Platform
