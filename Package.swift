@@ -19,6 +19,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "Async", dependencies: ["Platform"]),
+        .testTarget(name: "AsyncTests", dependencies: ["Async", "Test"]),
         .target(name: "AsyncDispatch", dependencies: ["Async"]),
         .testTarget(
             name: "AsyncDispatchTests",

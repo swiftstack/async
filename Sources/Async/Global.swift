@@ -1,28 +1,17 @@
 import Platform
 
-var _async: Async!
-var registered = false
+private var initialized = false
+@_versioned var _async: Async = AsyncInitializer()
 
-public var async: Async = {
-    guard registered else {
-        print("fatal error: async system is not registered, please call " +
-            "Async(Fiber/Tarantool)Dispatch().registerGlobal() first")
-        exit(1)
+public var async: Async {
+    @inline(__always) get {
+        return _async
     }
-    return _async
-}()
-
-extension Async {
-    @discardableResult
-    public func registerGlobal() -> Self {
-        guard !(_async is Self) else {
-            return self
+    set {
+        guard !initialized else {
+            fatalError("the global async object has already been initialized")
         }
-        guard !registered else {
-            fatalError("the global async object was already initialized")
-        }
-        registered = true
-        _async = self
-        return self
+        initialized = true
+        _async = newValue
     }
 }
