@@ -13,12 +13,16 @@ let package = Package(
             .branch("master")
         ),
         .package(
+            url: "https://github.com/swift-stack/time.git",
+            .branch("master")
+        ),
+        .package(
             url: "https://github.com/swift-stack/test.git",
             .branch("master")
         )
     ],
     targets: [
-        .target(name: "Async", dependencies: ["Platform"]),
+        .target(name: "Async", dependencies: ["Platform", "Time"]),
         .testTarget(name: "AsyncTests", dependencies: ["Async", "Test"]),
         .target(name: "AsyncDispatch", dependencies: ["Async"]),
         .testTarget(

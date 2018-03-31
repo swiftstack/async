@@ -1,4 +1,5 @@
 import Test
+import Time
 import Dispatch
 import Foundation
 
@@ -37,12 +38,12 @@ class AsyncDispatchTests: TestCase {
 
         var done = false
         let task = {
-            async.sleep(until: Date(timeIntervalSinceNow: 0.2))
+            async.sleep(until: .now + 200.ms)
             done = true
         }
 
         assertThrowsError(try async.syncTask(
-            deadline: Date(timeIntervalSinceNow: 0.1),
+            deadline: .now + 100.ms,
             task: task
         )) { error in
             assertEqual(error as? AsyncError, .timeout)
@@ -79,7 +80,7 @@ class AsyncDispatchTests: TestCase {
             taskDone = true
         }
 
-        async.loop.run(until: Date().addingTimeInterval(0.1))
+        async.loop.run(until: .now + 100.ms)
 
         assertEqual(error as? AsyncError, .taskCanceled)
         assertTrue(taskDone)
