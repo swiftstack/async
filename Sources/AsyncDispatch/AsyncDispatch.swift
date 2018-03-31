@@ -72,6 +72,9 @@ public struct AsyncDispatch: Async {
         var fd = pollfd(fd: descriptor.rawValue, events: event, revents: 0)
 
         func calculateTimeout(_ now: Time, _ deadline: Time) throws -> Int32 {
+            guard deadline < .distantFuture else {
+                return -1
+            }
             let timeout = deadline.timeIntervalSinceNow.duration.ms
             guard timeout < Int32.max else {
                 return -1
