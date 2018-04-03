@@ -1,7 +1,7 @@
 import Platform
 
 var initialized = false
-@_versioned var _async: Async = AsyncInitializer()
+@usableFromInline var _async: Async = AsyncInitializer()
 
 public var async: Async {
     @inline(__always) get {
