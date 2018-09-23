@@ -1,8 +1,10 @@
 import Time
 import Platform
 
+#if canImport(Dispatch)
 import struct Dispatch.DispatchQoS
 import class Dispatch.DispatchQueue
+#endif
 
 public enum IOEvent {
     case read, write
@@ -20,12 +22,14 @@ public protocol Async {
 
     func task(_ closure: @escaping AsyncTask) -> Void
 
+    #if canImport(Dispatch)
     func syncTask<T>(
         onQueue queue: DispatchQueue,
         qos: DispatchQoS,
         deadline: Time,
         task: @escaping () throws -> T
     ) throws -> T
+    #endif
 
     func sleep(until deadline: Time)
 
@@ -40,6 +44,7 @@ public protocol AsyncLoop {
     func terminate()
 }
 
+#if canImport(Dispatch)
 extension Async {
     public func syncTask<T>(task: @escaping () throws -> T) throws -> T {
         return try syncTask(
@@ -49,3 +54,4 @@ extension Async {
             task: task)
     }
 }
+#endif

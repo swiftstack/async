@@ -15,7 +15,7 @@ extension Async {
         async = system.async
     }
 
-    /// For testing
+    /// @testable
     func setUp(_ system: Asynchronous.Type) {
         guard !initialized else {
             // allow to run tests with the same async
@@ -31,8 +31,10 @@ extension Async {
 import Time
 import Platform
 
+#if canImport(Dispatch)
 import struct Dispatch.DispatchQoS
 import class Dispatch.DispatchQueue
+#endif
 
 struct AsyncInitializer: Async {
     var loop: AsyncLoop {
@@ -49,6 +51,7 @@ struct AsyncInitializer: Async {
         die()
     }
 
+    #if canImport(Dispatch)
     func syncTask<T>(
         onQueue queue: DispatchQueue,
         qos: DispatchQoS,
@@ -57,6 +60,7 @@ struct AsyncInitializer: Async {
     {
         die()
     }
+    #endif
 
     func sleep(until deadline: Time) {
         die()
