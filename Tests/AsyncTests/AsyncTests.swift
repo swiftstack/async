@@ -4,6 +4,6 @@ import Test
 
 class AsyncTests: TestCase {
     func testAsync() {
-        assertTrue(async is AsyncInitializer)
+        expect(async is AsyncInitializer)
     }
 }
