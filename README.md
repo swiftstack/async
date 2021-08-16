@@ -2,12 +2,12 @@
 
 An abstraction over coroutine-based io poller and asynchronous task.
 
-This design allows us to easily swap our fiber system to [another one](https://github.com/swift-stack/tarantool) provided by the host application.
+This design allows us to easily swap our fiber system to [another one](https://github.com/swiftstack/tarantool) provided by the host application.
 
 ## Package.swift
 
 ```swift
-.package(url: "https://github.com/swift-stack/async.git", .branch("dev"))
+.package(url: "https://github.com/swiftstack/async.git", .branch("dev"))
 ```
 
 ## Usage
@@ -25,5 +25,5 @@ async.main {
     }
 }
 
-async.loop.run()
+loop.run()
 ```
