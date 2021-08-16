@@ -7,7 +7,7 @@ This design allows us to easily swap our fiber system to [another one](https://g
 ## Package.swift
 
 ```swift
-.package(url: "https://github.com/swiftstack/async.git", .branch("dev"))
+.package(url: "https://github.com/swiftstack/async.git", .branch("fiber"))
 ```
 
 ## Usage
