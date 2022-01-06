@@ -6,12 +6,12 @@ let package = Package(
     products: [
         .library(
             name: "Async",
-            targets: ["Async"])
+            targets: ["Async"]),
     ],
     dependencies: [
         .package(name: "Platform"),
         .package(name: "Time"),
-        .package(name: "Test")
+        .package(name: "Test"),
     ],
     targets: [
         .target(
@@ -19,7 +19,7 @@ let package = Package(
             dependencies: ["Platform", "Time"]),
         .testTarget(
             name: "AsyncTests",
-            dependencies: ["Test", "Async"])
+            dependencies: ["Test", "Async"]),
     ]
 )
 
